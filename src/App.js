@@ -8,7 +8,7 @@ class App extends Component {
         <div id="header">
           <img src="https://cdn.crickethealth.com/1/img/logos/logo-lg-peach.svg" />
         </div>
-        <Chat />
+        <Chat/>
       </div>
     );
   }

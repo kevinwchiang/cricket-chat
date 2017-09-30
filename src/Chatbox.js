@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 class Chatbox extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      chats: []
-      // chats: [{timestamp: 'jon', text: 'hi'}, { timestamp: 'kevin', text: 'hello' }]
-    }
+  componentDidUpdate() {
+    const node = ReactDOM.findDOMNode(this.chatBox);
+    node.scrollTop = node.scrollHeight;
   }
 
   render() {
+    const { chatData } = this.props;
     return (
-      <div className='chat-box'>
-        {this.state.chats.map((message) => {
+      <div ref={(ref) => this.chatBox = ref} className='chat-box'>
+        {chatData.map((message) => {
+          let date =  new Date(message.createdAt);
+          date = date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
           return (
-            <div className="message">
-              <span className="message-timestamp">{message.timestamp}:</span>
+            <div className="message" key={message.id}>
+              <span className="message-timestamp">{date}:</span>
               <span className="message-text">{message.text}</span>
             </div>
           );

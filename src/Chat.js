@@ -6,6 +6,7 @@ class Chat extends Component {
     super(props);
     this.state = {
       inputText: '',
+      chatData: [],
     }
     this.handleSubmit = ::this.handleSubmit;
     this.onChange = ::this.onChange;
@@ -22,7 +23,9 @@ class Chat extends Component {
 
     // Listen for messages
     this.socket.addEventListener('message', (event) => {
-        console.log('Message from server ', event.data);
+      const data = JSON.parse(event.data);
+      console.log("Message from server: ", data)
+      this.setState({ chatData: data });
     });
   }
 
@@ -43,20 +46,26 @@ class Chat extends Component {
     return (
       <div className="chat-container">
         <div className="chat">
-          <Chatbox />
-          <form className="input-container" onSubmit={this.handleSubmit}>
+          <Chatbox chatData={this.state.chatData} />
+          <div className="input-container">
             <input
               type="text"
               className="chat-input form-control"
-              onChange={(event) =>this.onChange(event.target.value)}
+              onChange={(event) => this.onChange(event.target.value)}
               value={this.state.inputText}
+              onKeyDown={(e) => {
+                if (e.which === 13) {
+                  this.handleSubmit();
+                }
+              }}
             />
             <input
-              type="submit"
+              type="button"
               value="Send"
               className="btn btn-default chat-button"
+              onClick={this.handleSubmit}
             />
-          </form>
+          </div>
         </div>
       </div>
     );
