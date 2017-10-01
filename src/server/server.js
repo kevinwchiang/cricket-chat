@@ -5,17 +5,17 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const http = require('http');
 const WebSocket = require('ws');
-const sequelize = require('./sequelize');
-const models = require('./models');
+const db = require('./models');
 
-const { Message } = models;
+const { Message } = db;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 // Connect to DB
-sequelize.authenticate();
+db.sequelize.authenticate();
+db.sequelize.sync();
 
 app.get('/', (req, res) => {
   res.send('Success!');
@@ -53,7 +53,6 @@ wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     handleMessage(ws, message);
   });
-
   ws.send('Connection completed');
 });
 

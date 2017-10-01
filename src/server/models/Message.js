@@ -1,10 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../sequelize');
-
-const Message = sequelize.define('message', {
-  text: {
-    type: Sequelize.STRING,
-  },
-}, { timestamps: true });
-
-module.exports = Message;
+module.exports = function (sequelize, DataTypes) {
+  return sequelize.define('message', {
+    text: DataTypes.TEXT,
+  }, { timestamps: true });
+};
