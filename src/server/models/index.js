@@ -1,3 +1,3 @@
-const Message = require("./Message");
+const Message = require('./Message');
 
 module.exports = { Message };

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
 class Chatbox extends Component {
   componentDidUpdate(prevProps) {
     if (prevProps.chatData.length !== this.props.chatData.length) {
-      const node = ReactDOM.findDOMNode(this.chatBox);
+      const node = this.chatBox;
       node.scrollTop = node.scrollHeight;
     }
   }
@@ -27,5 +27,9 @@ class Chatbox extends Component {
     );
   }
 }
+
+Chatbox.propTypes = {
+  chatData: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default Chatbox;

@@ -7,6 +7,7 @@ const http = require('http');
 const WebSocket = require('ws');
 const sequelize = require('./sequelize');
 const models = require('./models');
+
 const { Message } = models;
 
 app.use(bodyParser.json());
@@ -14,14 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 // Connect to DB
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  });
+sequelize.authenticate();
 
 app.get('/', (req, res) => {
   res.send('Success!');
@@ -40,7 +34,7 @@ wss.broadcast = function broadcast(data) {
   });
 };
 
-const handleMessage = function (ws, message) {
+const handleMessage = (ws, message) => {
   if (message === 'initial') {
     Message.findAll({ order: [['createdAt', 'ASC']] }).then((data) => {
       ws.send(JSON.stringify(data));
